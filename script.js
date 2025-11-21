@@ -22,8 +22,6 @@ function createGameBoard() {
 
 
 function createPlayer(name, mark) {
-    
-
     return {
         name,
         mark
@@ -32,8 +30,14 @@ function createPlayer(name, mark) {
 
 
 
+// createa player
+const playerOne = createPlayer("player", "X");
+const playerTwo = createPlayer("player2", "X");
+
+console.log(playerOne)
+
 const myBoard = createGameBoard();
 console.log('Initial Board: ', myBoard.getBoard());
-myBoard.placeMark(0, "X")
-myBoard.placeMark(4, "O")
-console.log(myBoard.getBoard())
+myBoard.placeMark(0, "X");
+myBoard.placeMark(4, "O");
+console.log(myBoard.getBoard());
