@@ -20,7 +20,6 @@ function createGameBoard() {
     };
 }
 
-
 function createPlayer(name, mark) {
     return {
         name,
@@ -29,12 +28,23 @@ function createPlayer(name, mark) {
 };
 
 
+function createGameController(playerOne, playerTwo) {
+    const gameBoard = createGameBoard();
+
+    const getActivePlayer = () => activePlayer;
+
+    return {
+        getActivePlayer: getActivePlayer
+    }
+};
+
 
 // createa player
 const playerOne = createPlayer("player", "X");
-const playerTwo = createPlayer("player2", "X");
+const playerTwo = createPlayer("player2", "0");
 
-console.log(playerOne)
+console.log(playerOne);
+console.log(playerTwo);
 
 const myBoard = createGameBoard();
 console.log('Initial Board: ', myBoard.getBoard());
