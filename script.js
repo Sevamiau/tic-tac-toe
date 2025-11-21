@@ -33,6 +33,10 @@ function createGameController(playerOne, playerTwo) {
 
     const getActivePlayer = () => activePlayer;
 
+    function playturn(index) {
+    const playerMarl = activePlayer
+    }
+
     return {
         getActivePlayer: getActivePlayer
     }
