@@ -1,14 +1,21 @@
 
 
 function createGameBoard() {
-    let board = ["", "", "", "", "", "", "", "", ""];
+    let board = [
+        ["", "", ""], 
+        ["", "", ""], 
+        ["", "", ""]
+    ]    
 
     const getBoard = () => board;
 
-    function placeMark(index, playerMark){
-        if (board[index] === ""){
-            board[index] = playerMark;
-            return true;
+    function placeMark(index, playerMark) {
+        const row = Math.floor(index / 3);
+        const col = index % 3;
+
+        if (board[row][col] === "") {
+            board[row][col] = playerMark;
+            return true
         } else {
             return false
         }
@@ -28,21 +35,32 @@ function createPlayer(name, mark) {
 };
 
 
-// function createGameController(playerOne, playerTwo) {
-//     const gameBoard = createGameBoard();
+function createGameController(playerOne, playerTwo) {
+    const gameBoard = createGameBoard();
+    const players = [playerOne, playerTwo];
+    let activePlayer = players[0];
 
-//     let activePlayer = playerOne //privet var
+    const getActivePlayer = () => activePlayer;
 
-//     const getActivePlayer = () => activePlayer;
+    function playturn(index) {
+    const playerMark = getActivePlayer().mark;
+    }
 
-//     function playturn(index) {
-//     const playerMark = getActivePlayer().mark;
-//     }
+    function switchPlayerTurn(){
+        if (activePlayer === players[0]) {
+            activePlayer = players[1];
+        } else {
+            activePlayer = players[0];
+        }
+    } 
 
-//     return {
-//         getActivePlayer: getActivePlayer
-//     }
-// };
+    return {
+        getActivePlayer: getActivePlayer,
+        playturn: playturn,
+        switchPlayerTurn: switchPlayerTurn
+    }
+};
+
 
 
 // createa player
@@ -53,7 +71,7 @@ const playerTwo = createPlayer("player2", "0");
 // console.log(playerTwo);
 
 const myBoard = createGameBoard();
-// console.log('Initial Board: ', myBoard.getBoard());
-myBoard.placeMark(0, "X");
-myBoard.placeMark(6, "O");
-console.log(myBoard.getBoard());
+
+myBoard.placeMark(1, playerOne.mark)
+
+console.log(myBoard.getBoard())
