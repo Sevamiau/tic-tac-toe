@@ -43,7 +43,13 @@ function createGameController(playerOne, playerTwo) {
     const getActivePlayer = () => activePlayer;
 
     function playturn(index) {
-    const playerMark = getActivePlayer().mark;
+        if (gameBoard.placeMark(index, getActivePlayer().mark)) {
+            if (checkwinne()) {
+                confirm.log(`${getActivePlayer().name} Wins!`);
+                return;
+            }
+        }
+        
     }
 
     function switchPlayerTurn(){
