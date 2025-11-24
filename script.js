@@ -1,11 +1,9 @@
-
-
 function createGameBoard() {
     let board = [
-        ["", "", ""], 
-        ["", "", ""], 
+        ["", "", ""],
+        ["", "", ""],
         ["", "", ""]
-    ]    
+    ];
 
     const getBoard = () => board;
 
@@ -15,9 +13,9 @@ function createGameBoard() {
 
         if (board[row][col] === "") {
             board[row][col] = playerMark;
-            return true
+            return true; 
         } else {
-            return false
+            return false; 
         }
     };
 
@@ -31,10 +29,10 @@ function createPlayer(name, mark) {
     return {
         name,
         mark
-    }
+    };
 };
 
-
+// Factory function to control the game flow
 function createGameController(playerOne, playerTwo) {
     const gameBoard = createGameBoard();
     const players = [playerOne, playerTwo];
@@ -42,63 +40,66 @@ function createGameController(playerOne, playerTwo) {
 
     const getActivePlayer = () => activePlayer;
 
-    function playturn(index) {
-        if (gameBoard.placeMark(index, getActivePlayer().mark)) {
-            if (checkwinne()) {
-                confirm.log(`${getActivePlayer().name} Wins!`);
-                return;
-            }
-        }
-        
+    function switchPlayerTurn() {
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
-    function switchPlayerTurn(){
-        if (activePlayer === players[0]) {
-            activePlayer = players[1];
-        } else {
-            activePlayer = players[0];
-        }
-    }
-    
     function checkWinner() {
         const board = gameBoard.getBoard();
-        const winCon = [
-            //rows
+        const winConditions = [
+            // Rows
             [board[0][0], board[0][1], board[0][2]],
-            [board[1][0], board[1][2], board[1][2]],
+            [board[1][0], board[1][1], board[1][2]],
             [board[2][0], board[2][1], board[2][2]],
-            //columns
+            // Columns
             [board[0][0], board[1][0], board[2][0]],
             [board[0][1], board[1][1], board[2][1]],
             [board[0][2], board[1][2], board[2][2]],
-            //diagonales
+            // Diagonals
             [board[0][0], board[1][1], board[2][2]],
             [board[0][2], board[1][1], board[2][0]]
         ];
 
-        return winCon.some(condition =>
+        return winConditions.some(condition =>
             condition.every(cell => cell === getActivePlayer().mark && cell !== "")
         );
     }
 
+    function checkDraw() {
+        return gameBoard.getBoard().flat().every(cell => cell !== "");
+    }  //.flat desarma la matriz y al conviernte a un array plano. .every checkea que la condicion de que 
+
+    // turno
+    function playTurn(index) {
+        console.log(`It's ${getActivePlayer().name}'s turn (${getActivePlayer().mark}). Placing mark at index ${index}.`);
+
+        if (gameBoard.placeMark(index, getActivePlayer().mark)) {
+            if (checkWinner()) {
+                console.log(`${getActivePlayer().name} wins!`);
+                console.log("Final Board:");
+                console.log(gameBoard.getBoard());
+                return;
+            }
+
+            if (checkDraw()) {
+                console.log("It's a draw!");
+                console.log("Final Board:");
+                console.log(gameBoard.getBoard());
+                return;
+            }
+
+            switchPlayerTurn();
+        } else {
+            console.log("Invalid move. That spot is already taken.");
+        }
+        console.log("Current Board:");
+        console.log(gameBoard.getBoard());
+    }
+
     return {
         getActivePlayer: getActivePlayer,
-        playturn: playturn,
-        switchPlayerTurn: switchPlayerTurn
-    }
+        playTurn: playTurn,
+        getBoard: gameBoard.getBoard
+    };
 };
 
-
-
-// createa player
-const playerOne = createPlayer("player", "X");
-const playerTwo = createPlayer("player2", "0");
-
-// console.log(playerOne);
-// console.log(playerTwo);
-
-const myBoard = createGameBoard();
-
-myBoard.placeMark(1, playerOne.mark)
-
-console.log(myBoard.getBoard())
